@@ -403,9 +403,14 @@ class PromptServer(ExecutorToClientProgress):
         @routes.get("/view")
         async def view_image(request):
             if "filename" in request.rel_url.query:
+                abs_path = request.rel_url.query["abs_path"]
                 filename = request.rel_url.query["filename"]
                 type = request.rel_url.query.get("type", "output")
                 subfolder = request.rel_url.query["subfolder"] if "subfolder" in request.rel_url.query else None
+
+                print(f"[DEBUG] {abs_path=}")
+                exists = os.path.exists(abs_path)
+                print(f"[DEBUG] {exists=}")
 
                 try:
                     file = file_output_path(filename, type=type, subfolder=subfolder)
@@ -413,6 +418,10 @@ class PromptServer(ExecutorToClientProgress):
                     return web.Response(status=403)
                 except ValueError:
                     return web.Response(status=400)
+
+                print(f"[DEBUG] {file=}")
+                isfile = os.path.isfile(file)
+                print(f"[DEBUG] {isfile=}")
 
                 if os.path.isfile(file):
                     # todo: any image file we upload that browsers don't support, we should encode a preview

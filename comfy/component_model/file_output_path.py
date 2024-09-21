@@ -22,6 +22,13 @@ def file_output_path(filename: str, type: Literal["input", "output", "temp"] = "
     :return:
     """
     filename, output_dir = folder_paths.annotated_filepath(str(filename))
+
+    items = os.listdir(output_dir)
+
+    print(f"[DEBUG] listing: {output_dir}")
+    for item in items:
+        print(f"[DEBUG] {item}")
+
     if not _is_strictly_below_root(Path(filename)):
         raise PermissionError("insecure")
 
@@ -40,4 +47,5 @@ def file_output_path(filename: str, type: Literal["input", "output", "temp"] = "
             raise PermissionError("insecure")
 
     file = os.path.join(output_dir, filename)
+    print("[DEBUG] end")
     return file
