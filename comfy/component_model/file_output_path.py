@@ -1,4 +1,5 @@
 import os
+import logging
 from typing import Literal, Optional
 from pathlib import Path
 
@@ -25,9 +26,9 @@ def file_output_path(filename: str, type: Literal["input", "output", "temp"] = "
 
     items = os.listdir(output_dir)
 
-    print(f"[DEBUG] listing: {output_dir}")
+    logging.info(f"[DEBUG] listing: {output_dir}")
     for item in items:
-        print(f"[DEBUG] {item}")
+        logging.info(f"[DEBUG] {item}")
 
     if not _is_strictly_below_root(Path(filename)):
         raise PermissionError("insecure")
@@ -47,5 +48,5 @@ def file_output_path(filename: str, type: Literal["input", "output", "temp"] = "
             raise PermissionError("insecure")
 
     file = os.path.join(output_dir, filename)
-    print("[DEBUG] end")
+    logging.info("[DEBUG] end")
     return file

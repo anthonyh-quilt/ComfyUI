@@ -408,9 +408,9 @@ class PromptServer(ExecutorToClientProgress):
                 type = request.rel_url.query.get("type", "output")
                 subfolder = request.rel_url.query["subfolder"] if "subfolder" in request.rel_url.query else None
 
-                print(f"[DEBUG] {abs_path=}")
+                logging.info(f"[DEBUG] {abs_path=}")
                 exists = os.path.exists(abs_path)
-                print(f"[DEBUG] {exists=}")
+                logging.info(f"[DEBUG] {exists=}")
 
                 try:
                     file = file_output_path(filename, type=type, subfolder=subfolder)
@@ -419,9 +419,9 @@ class PromptServer(ExecutorToClientProgress):
                 except ValueError:
                     return web.Response(status=400)
 
-                print(f"[DEBUG] {file=}")
+                logging.info(f"[DEBUG] {file=}")
                 isfile = os.path.isfile(file)
-                print(f"[DEBUG] {isfile=}")
+                logging.info(f"[DEBUG] {isfile=}")
 
                 if os.path.isfile(file):
                     # todo: any image file we upload that browsers don't support, we should encode a preview
